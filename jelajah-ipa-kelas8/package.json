@@ -1,0 +1,19 @@
+{
+  "name": "jelajah-ipa-kelas8",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Jelajah IPA Kelas 8: wahana 3D, misi, dan latihan (Energi dan Gelombang)",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:pages": "wrangler pages deploy public --project-name=jelajah-ipa-kelas8 --branch=main --commit-dirty=true",
+    "vendor:three": "node scripts/vendor-three.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
