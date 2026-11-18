@@ -1,6 +1,6 @@
 # Jelajah IPA Kelas 8
 
-Situs belajar IPA Kelas 8: **Wahana** (praktik 3D), **Misi** (materi + tantangan), dan **Latihan** (soal + pembahasan di wahana) untuk bab **Energi** dan **Gelombang**. Situs ini statis (satu `index.html`), jadi tidak butuh build.
+Situs belajar IPA Kelas 8: **Wahana** (praktik 3D), **Misi** (materi + tantangan), **Latihan** (soal + pembahasan di wahana), dan **Uji** (soal bertahap: diketahui, ditanya, jawaban; khusus bab Energi) untuk bab **Energi** dan **Gelombang**. Situs ini statis (satu `index.html`), jadi tidak butuh build.
 
 Nama proyek di semua tempat dibuat sama supaya mudah dicari di Cloudflare: **`jelajah-ipa-kelas8`**.
 
@@ -9,6 +9,9 @@ Nama proyek di semua tempat dibuat sama supaya mudah dicari di Cloudflare: **`je
 | Berkas | Fungsi |
 | --- | --- |
 | `public/index.html` | Seluruh aplikasi |
+| `public/uji.js` | Tampilan dan logika menu Uji |
+| `public/uji-data.js` | Soal, kunci, dan pembahasan menu Uji (dari file Word) |
+| `public/uji/` | Gambar pendukung soal menu Uji |
 | `public/_headers` | Header keamanan dan cache |
 | `wrangler.jsonc` | Konfigurasi Cloudflare Workers (aset statis) |
 | `package.json` | Perintah `dev`, `deploy`, `deploy:pages` |
