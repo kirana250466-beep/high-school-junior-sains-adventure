@@ -100,6 +100,8 @@ body[data-pm="1"] #hint{display:none}
 <div id="vw" class="vw"></div>
 <div id="lg"><div class="lgc"><h2>Masuk Lab Fisika</h2><p>Ketik namamu untuk mulai praktik.</p><input id="nm" maxlength="30" placeholder="Nama" autocomplete="off"><button id="ok">Masuk</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/uji-data.js"></script>
+<script src="/uji.js"></script>
 <script>
 const $=q=>document.querySelector(q),G=10,fm=(n,d=1)=>n.toFixed(d).replace('.',',');
 const cv=$('#c'),rd=new THREE.WebGLRenderer({canvas:cv,antialias:true}),sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,100);
@@ -436,7 +438,7 @@ setInterval(savePG,1500);
 function endPM(){if(!PM)return;const S=ST[PS];if(S._s){S.fl=S._f;S.rows=S._r;Object.assign(S.s,S._s);S.pre=null;S.fb=null;S.rst()}PM=0;$('#pmbar').style.display='none'}
 const base=()=>{endPM();$('#bk').style.display='none';document.body.dataset.pm=0};
 function home(){base();vw(hd('Pilih Bab IPA','')+'<div class="bd"><h2>Halo, '+esc(NM)+'!</h2><p class="q">Mau belajar bab apa hari ini?</p><div class="cds">'+cd('e0','⚡','Energi','Usaha, Energi, dan Pesawat Sederhana')+cd('e1','🌊','Gelombang','Getaran, Gelombang, Cahaya, dan Alat Optik')+'</div></div>')}
-function menu(b){if(b!=BAB){PGS[BAB]=snap();BAB=b;LAT=b?LAT1:LAT0;MQ=b?MQ1:MQ0;BN=b?BN1:BN0;loadBab(b);LI=0;RV=0;MI=0}base();const P=pgs();vw(hd(b?'Gelombang':'Energi','home')+'<div class="bd"><p class="q">Pilih kegiatan belajarmu.</p><div class="cds">'+cd('wah','🎢','Wahana',b?'Praktik 3D: bandul, gelombang gempa, mata dan kacamata':'Praktik 3D: usaha, energi, pesawat sederhana',0,P[0])+cd('misi','🚀','Misi',b?'Materi lengkap + latihan mandiri':'Materi lengkap + 18 tantangan',0,P[1])+cd('lat','✏️','Latihan',role=='guru'?'Mode Pengajar: soal + pembahasan di wahana':'Mode Siswa: jawab soal lalu uji di wahana',0,P[2])+'</div></div>')}
+function menu(b){if(b!=BAB){PGS[BAB]=snap();BAB=b;LAT=b?LAT1:LAT0;MQ=b?MQ1:MQ0;BN=b?BN1:BN0;loadBab(b);LI=0;RV=0;MI=0}base();const P=pgs();vw(hd(b?'Gelombang':'Energi','home')+'<div class="bd"><p class="q">Pilih kegiatan belajarmu.</p><div class="cds">'+cd('wah','🎢','Wahana',b?'Praktik 3D: bandul, gelombang gempa, mata dan kacamata':'Praktik 3D: usaha, energi, pesawat sederhana',0,P[0])+cd('misi','🚀','Misi',b?'Materi lengkap + latihan mandiri':'Materi lengkap + 18 tantangan',0,P[1])+cd('lat','✏️','Latihan',role=='guru'?'Mode Pengajar: soal + pembahasan di wahana':'Mode Siswa: jawab soal lalu uji di wahana',0,P[2])+cd('q_uji','📝','Uji','Soal hitungan bertahap: diketahui, ditanya, lalu jawaban',b,b?null:ujProg())+'</div></div>')}
 function wah(){base();VW.style.display='none';$('#bk').style.display='';$('#bk').textContent='← Kembali';[...$('#tabs').children].forEach(x=>x.style.display=x.dataset.b==BAB?'':'none');sel(BAB*3)}
 const chk=(d,v)=>{if(d[4])return v==d[5];const e=[].concat(d[6]),n=(v.match(/-?\d+(?:[.,]\d+)?/g)||[]).map(x=>+x.replace(',','.')),t=d[8]??.03;return n.length==e.length&&e.every((x,i)=>Math.abs(n[i]-x)<=Math.max(Math.abs(x)*t,.001))};
 function misi(){base();if(MI>MV)MV=Math.min(MI,MQ.length);const n=MQ.length,nq=MQ.filter(Array.isArray).length;
@@ -454,13 +456,13 @@ function pm(){const L=LAT[LI],S=ST[L.st];base();PM=1;PS=L.st;document.body.datas
 Object.assign(S,{_f:S.fl,_r:S.rows,_s:{...S.s},fl:{},rows:[],fb:null,dirty:0,pre:role=='guru'?L.pre:null});Object.assign(S.s,S.pre||S.def);S.rst();sel(L.st);
 const b=$('#pmbar');b.style.display='flex';b.innerHTML='<button data-p="s">◀ Kembali ke soal</button><button data-p="n">'+(LI<LAT.length-1?'Soal berikutnya ▶':'Selesai ▶')+'</button>'}
 const pmh=()=>{const L=LAT[LI];if(role!='guru')return'<div class="pmb tip"><b>🎮 KERJAKAN SENDIRI!</b>'+L.sk+'</div>';return'<div class="pmb in"><b>💡 INTINYA</b>'+L.in+'</div><div class="pmb"><b>🪜 LANGKAH</b><ol>'+L.ln.map(x=>'<li>'+x+'</li>').join('')+'</ol></div><div class="pmb"><b>🔍 CEK SATU PER SATU</b>'+L.ck.map(c=>'<p class="'+(c[0]?'t':'f')+'"><em>'+(c[0]?'✔ TEPAT':'✘ KELIRU')+'</em>'+c[1]+'</p>').join('')+'</div><div class="pmb tr"><b>🎯 TRIK INGAT</b>'+L.tr+'</div><div class="pmb tip"><b>🎮 PERAGAKAN DI WAHANA</b>'+L.dm+'</div>'};
-function act(a){if(a=='out')out();else if(a=='home')go('home');else if(a=='e0'||a=='e1')go(a=='e0'?'energi':'gelombang');else if(a=='b0')go(BAB?'gelombang':'energi');else if(a=='wah')go('wahana');else if(a=='misi'||a=='mr'){if(a=='mr'){clr(MA);clr(RK);MV=0;MI=0}else MI=MV>=MQ.length?0:MV;go('misi')}else if(a=='lat'||a=='lr'){if(a=='lr'){clr(LA);LV=0;LI=0}else LI=LV>=LAT.length?0:LV;RV=0;go('latihan')}
+function act(a){if(ujAct(a))return;if(a=='out')out();else if(a=='home')go('home');else if(a=='e0'||a=='e1')go(a=='e0'?'energi':'gelombang');else if(a=='b0')go(BAB?'gelombang':'energi');else if(a=='wah')go('wahana');else if(a=='misi'||a=='mr'){if(a=='mr'){clr(MA);clr(RK);MV=0;MI=0}else MI=MV>=MQ.length?0:MV;go('misi')}else if(a=='lat'||a=='lr'){if(a=='lr'){clr(LA);LV=0;LI=0}else LI=LV>=LAT.length?0:LV;RV=0;go('latihan')}
 else if(a[0]=='o'&&a.length==2){LA[LI]=+a[1];lat()}else if(a=='rv'){RV=1;lat()}else if(a=='lp'){LI--;RV=1;lat()}else if(a=='pm')go('pembahasan');else if(a=='mn'){MI++;misi()}else if(a=='rk'){RK[MI]=1;misi()}else if(a[0]=='j'){MI=MQ.findIndex(x=>(Array.isArray(x)?x[0]:x.c)==+a[1]);misi()}else if(a=='mp'){MI--;misi()}
 else if(a[0]=='c'&&a[1]==':'){const v=a.slice(2);MA[MI]={v,ok:chk(MQ[MI],v)};misi()}else if(a=='ck'){const v=$('#mi').value;if(v.trim()){MA[MI]={v,ok:chk(MQ[MI],v)};misi()}}}
 VW.onclick=e=>{const a=e.target.closest('[data-a]');if(a)act(a.dataset.a)};
 $('#bk').onclick=()=>go(BAB?'gelombang':'energi');
 const go=n=>{location.hash.slice(1)==n?route():location.hash=n};
-function route(){if(!role)return;const h=location.hash.slice(1);if(LI>=LAT.length)LI=LAT.length-1;if(h=='energi')menu(0);else if(h=='gelombang')menu(1);else if(h=='wahana')wah();else if(h=='misi')misi();else if(h=='latihan')lat();else if(h=='pembahasan')pm();else if(h=='selesai')lfin();else home()}
+function route(){if(!role)return;const h=location.hash.slice(1);if(LI>=LAT.length)LI=LAT.length-1;if(h=='energi')menu(0);else if(h=='gelombang')menu(1);else if(h=='wahana')wah();else if(h=='misi')misi();else if(h=='latihan')lat();else if(h=='pembahasan')pm();else if(h=='selesai')lfin();else if(h=='uji')ujiView();else home()}
 window.onhashchange=route;
 $('#pmbar').onclick=e=>{const p=e.target.dataset.p;if(!p)return;endPM();if(p=='m')go(BAB?'gelombang':'energi');else if(p=='s')go('latihan');else{LI++;RV=0;go(LI<LAT.length?'latihan':'selesai')}};
 let role='';
