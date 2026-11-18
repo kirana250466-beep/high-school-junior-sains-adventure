@@ -8,3 +8,9 @@
 
 /favicon.svg
   Cache-Control: public, max-age=86400
+
+/uji.js
+  Cache-Control: no-cache
+
+/uji-data.js
+  Cache-Control: no-cache
